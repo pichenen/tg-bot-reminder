@@ -24,7 +24,7 @@ async def main():
     
     # ПРИМЕРЫ НАСТРОЙКИ РАСПИСАНИЯ:
     # Вариант А: Каждый день в 12:00 и 18:00
-    scheduler.add_job(send_scheduled_message, "cron", hour="10,18", minute=30)
+    scheduler.add_job(send_scheduled_message, "cron", minute=2)
     
     # Вариант Б: Только по будням (с понедельника по пятницу) в 09:30
     # scheduler.add_job(send_scheduled_message, "cron", day_of_week="mon-fri", hour=9, minute=30)
