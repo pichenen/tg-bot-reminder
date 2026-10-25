@@ -5,7 +5,13 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 # Укажите свои данные
 TOKEN = "8949593330:AAGmqKz6zd-sSI-BTP4ZkogUiwYyLoefjI0"
+# тестовая группа
 GROUP_ID = -1004442377674
+THREAD_ID = 2
+
+# боевая дрома
+# GROUP_ID = -1004499706437
+# THREAD_ID = 348
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
@@ -13,7 +19,7 @@ dp = Dispatcher()
 # Функция, которая будет публиковать сообщение в группу
 async def send_scheduled_message(time):
     try:
-        await bot.send_message(chat_id=GROUP_ID, message_thread_id=2, text=f"📢 Трена сегодня в {time}! \n\nЕсли точно идешь - ставь реакцию на это сообщение")
+        await bot.send_message(chat_id=GROUP_ID, message_thread_id=THREAD_ID, text=f"📢 Трена сегодня в {time}! \n\nЕсли точно идешь - ставь реакцию на это сообщение")
         logging.info("Сообщение успешно отправлено в группу.")
     except Exception as e:
         logging.error(f"Ошибка при отправке: {e}")
@@ -25,12 +31,16 @@ async def main():
     scheduler = AsyncIOScheduler(timezone="Europe/Moscow")
     # ПРИМЕРЫ НАСТРОЙКИ РАСПИСАНИЯ:
     # Вариант А: Каждый день каждую минуту:
-    # scheduler.add_job(send_scheduled_message("20:00"), "cron", minute="*/1")
+    # scheduler.add_job(send_scheduled_message, "cron", minute="*/1")
     # Вариант Б: Только по будням (с понедельника по пятницу) в 09:30
     # scheduler.add_job(send_scheduled_message, "cron", day_of_week="mon-fri", hour=9, minute=30)
 
-    scheduler.add_job(send_scheduled_message, args=["19:30"], trigger="cron", day_of_week="sun,mon,fri", hour=8, minute="58")
-    scheduler.add_job(send_scheduled_message, args=["20:00"], trigger="cron", day_of_week="sun,mon,fri", hour=8, minute="59")
+    # тест
+    scheduler.add_job(send_scheduled_message, args=["19:30"], trigger="cron", day_of_week="sun", minute="*/10")
+
+    # в мартен ПН+ПТ в 19:30 и 20
+    # scheduler.add_job(send_scheduled_message, args=["19:30"], trigger="cron", day_of_week="sun,mon,fri", hour=8, minute="58")
+    # scheduler.add_job(send_scheduled_message, args=["20:00"], trigger="cron", day_of_week="sun,mon,fri", hour=8, minute="59")
     scheduler.start()
 
     # ПРОСТО ОТПРАВКА СООБЩЕНИЙ ПРИ СТАРТЕ СКРИПТА
