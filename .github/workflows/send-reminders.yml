@@ -4,11 +4,11 @@ name: Send Telegram reminders
 on:
   schedule:
     # Sunday at 19:30 Moscow time
-    - cron: "0 19 * * 0"
+    - cron: "41 15 * * 0"
       timezone: "Europe/Moscow"
 
     # Sunday at 20:00 Moscow time
-    - cron: "1 19 * * 0"
+    - cron: "42 15 * * 0"
       timezone: "Europe/Moscow"
 
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Send 19:30 reminder
-        if: github.event.schedule == '2 19 * * 0'
+        if: github.event.schedule == '41 15 * * 0'
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           GROUP_ID: ${{ secrets.GROUP_ID }}
@@ -39,7 +39,7 @@ jobs:
         run: python send_message.py
 
       - name: Send 20:00 reminder
-        if: github.event.schedule == '3 19 * * 0'
+        if: github.event.schedule == '42 15 * * 0'
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           GROUP_ID: ${{ secrets.GROUP_ID }}
