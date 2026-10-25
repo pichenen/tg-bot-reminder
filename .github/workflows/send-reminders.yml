@@ -1,0 +1,57 @@
+
+name: Send Telegram reminders
+
+on:
+  schedule:
+    # Sunday at 19:30 Moscow time
+    - cron: "0 19 * * 0"
+      timezone: "Europe/Moscow"
+
+    # Sunday at 20:00 Moscow time
+    - cron: "1 19 * * 0"
+      timezone: "Europe/Moscow"
+
+  workflow_dispatch:
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Send 19:30 reminder
+        if: github.event.schedule == '2 19 * * 0'
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GROUP_ID: ${{ secrets.GROUP_ID }}
+          THREAD_ID: ${{ secrets.THREAD_ID }}
+          TIME_LABEL: "19:30"
+        run: python send_message.py
+
+      - name: Send 20:00 reminder
+        if: github.event.schedule == '3 19 * * 0'
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GROUP_ID: ${{ secrets.GROUP_ID }}
+          THREAD_ID: ${{ secrets.THREAD_ID }}
+          TIME_LABEL: "20:00"
+        run: python send_message.py
+
+      - name: Manual test
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GROUP_ID: ${{ secrets.GROUP_ID }}
+          THREAD_ID: ${{ secrets.THREAD_ID }}
+          TIME_LABEL: "test"
+        run: python send_message.py

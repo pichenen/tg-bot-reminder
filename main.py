@@ -4,7 +4,7 @@ from aiogram import Bot, Dispatcher
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 # Укажите свои данные
-TOKEN = "8949593330:AAGmqKz6zd-sSI-BTP4ZkogUiwYyLoefjI0"
+TOKEN = ""
 # тестовая группа
 GROUP_ID = -1004442377674
 THREAD_ID = 2
