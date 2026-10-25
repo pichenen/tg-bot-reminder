@@ -29,8 +29,8 @@ async def main():
     # Вариант Б: Только по будням (с понедельника по пятницу) в 09:30
     # scheduler.add_job(send_scheduled_message, "cron", day_of_week="mon-fri", hour=9, minute=30)
 
-    scheduler.add_job(send_scheduled_message("19:30"), "cron", day_of_week="sun,mon,fri", hour=8, minute="48")
-    scheduler.add_job(send_scheduled_message("20:00"), "cron", day_of_week="sun,mon,fri", hour=8, minute="49")
+    scheduler.add_job(send_scheduled_message, args=["19:30"], trigger="cron", day_of_week="sun,mon,fri", hour=8, minute="58")
+    scheduler.add_job(send_scheduled_message, args=["20:00"], trigger="cron", day_of_week="sun,mon,fri", hour=8, minute="59")
     scheduler.start()
 
     # ПРОСТО ОТПРАВКА СООБЩЕНИЙ ПРИ СТАРТЕ СКРИПТА
