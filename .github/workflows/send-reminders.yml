@@ -3,9 +3,7 @@ name: Send Telegram reminders
 
 on:
   schedule:
-    - cron: "0 0 * * *"
-
-    - cron: "1 0 * * *"
+    - cron: "0 0 * * 1"
 
   workflow_dispatch:
 
